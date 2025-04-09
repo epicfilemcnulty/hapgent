@@ -13,7 +13,7 @@ health checks to determine the availability of an upstream server:
     3. Passive health checks
     4. Agent checks
 
-While the first three types of these checks are internal to HAProxy, i.e. 
+While the first three types are internal to HAProxy, i.e. 
 you don't need any external tools to use them, the agent checks are different: 
 you need to have an actual agent running on the upstream servers to use agent checks. 
 
@@ -25,7 +25,7 @@ The protocol of HAProxy agent is described in the [agent checks](https://www.hap
 like this:
 
     * You define *address*, *port*, *payload* and *interval* for the agent in the upstream server configuration.
-    * Every *N* seconds (where N == interval) HAProxy makes a TCP connection to the defined address 
+    * Every *interval* seconds HAProxy makes a TCP connection to the defined address 
       and port, sends the payload and reads the answer.
     * Depending on the answer HAProxy can change the server status (up/down) and/or change its weight.
 
