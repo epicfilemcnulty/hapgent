@@ -141,7 +141,25 @@ to implement a generic weight / maxconn adjustment system:
 
 ## Installation
 
-### Binary releases
+### Binary releases for Linux x86_64 systems
+
+Grab the latest release [binary](https://github.com/epicfilemcnulty/hapgent/releases/download/0.3.1/hapgent),
+make sure it has `b0b2295e3408630ca3a86aebb5d01b3f0ef06483d90a30885e3247f529319215` SHA256 checksum.
+
+The binary is also signed with my SSH key, if you want to verify the signature, you need to
+
+1. Download the [signature](https://github.com/epicfilemcnulty/hapgent/releases/download/0.3.1/hapgent.sig).
+2. Add my public key to the allowed signers file:
+
+   ```
+   echo "vladimir@deviant.guru ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEWU0xshVgOIyjzQEOKtjG8sU8sWJPh25CP/ISfJRey" >> ~/.ssh/allowed_signers
+   ```
+3. Verify the signature:
+   
+   ```
+   $ ssh-keygen -Y verify -f ~/.ssh/keys/deviant/allowed_signers -n file -I vladimir@deviant.guru -s hapgent.sig < hapgent
+   Good "file" signature for vladimir@deviant.guru with ED25519 key SHA256:K0hZF19Go+RKQPczS905IFVhRL8NiZTvZyi+4PkV/g8
+   ```
 
 ### Building from source
 
