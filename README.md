@@ -157,7 +157,7 @@ The binary is also signed with my SSH key, if you want to verify the signature, 
 3. Verify the signature:
    
    ```
-   $ ssh-keygen -Y verify -f ~/.ssh/keys/deviant/allowed_signers -n file -I vladimir@deviant.guru -s hapgent.sig < hapgent
+   $ ssh-keygen -Y verify -f ~/.ssh/allowed_signers -n file -I vladimir@deviant.guru -s hapgent.sig < hapgent
    Good "file" signature for vladimir@deviant.guru with ED25519 key SHA256:K0hZF19Go+RKQPczS905IFVhRL8NiZTvZyi+4PkV/g8
    ```
 
