@@ -8,10 +8,10 @@ When you have a bunch of upstream servers defined for an HAProxy backend,
 HAProxy has [several](https://www.haproxy.com/documentation/haproxy-configuration-tutorials/service-reliability/health-checks) types of
 health checks to determine the availability of an upstream server:
     
-    1. TCP health checks
-    2. HTTP health checks
-    3. Passive health checks
-    4. Agent checks
+ 1. TCP health checks
+ 2. HTTP health checks
+ 3. Passive health checks
+ 4. Agent checks
 
 While the first three types are internal to HAProxy, i.e. 
 you don't need any external tools to use them, the agent checks are different: 
@@ -24,10 +24,10 @@ you need to have an actual agent running on the upstream servers to use agent ch
 The protocol of HAProxy agent is described in the [agent checks](https://www.haproxy.com/documentation/haproxy-configuration-tutorials/service-reliability/health-checks/#agent-checks) section of the official documentation, but in a nutshell it works
 like this:
 
-    * You define *address*, *port*, *payload* and *interval* for the agent in the upstream server configuration.
-    * Every *interval* seconds HAProxy makes a TCP connection to the defined address 
-      and port, sends the payload and reads the answer.
-    * Depending on the answer HAProxy can change the server status (up/down) and/or change its weight.
+ * You define *address*, *port*, *payload* and *interval* for the agent in the upstream server configuration.
+ * Every *interval* seconds HAProxy makes a TCP connection to the defined address 
+   and port, sends the payload and reads the answer.
+ * Depending on the answer HAProxy can change the server status (up/down) and/or change its weight.
 
 ### HAProxy backend configuration sample
 
