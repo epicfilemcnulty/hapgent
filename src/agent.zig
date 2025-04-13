@@ -34,7 +34,7 @@ pub const State = struct {
     }
 };
 
-pub const default_state = State{ .status = Status.MAINT, .weight = null, .maxconn = null };
+pub const default_state = State{ .status = Status.FAIL, .weight = null, .maxconn = null };
 
 pub const Agent = struct {
     state: State = default_state,

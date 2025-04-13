@@ -1,6 +1,6 @@
 .{
     .name = .hapgent,
-    .version = "0.3.1",
+    .version = "0.3.2",
     .fingerprint = 0x5bb4d4b123dcac34, // Changing this has security and trust implications.
     .minimum_zig_version = "0.14.0",
     .paths = .{

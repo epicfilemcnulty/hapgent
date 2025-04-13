@@ -86,7 +86,7 @@ For example:
 ```
 
 If *hapgent* fails to read or parse the state file during the initial startup, 
-or upon receiving a HUP signal, it resets its state to the default value `{"status":"MAINT"}`.  
+or upon receiving a HUP signal, it resets its state to the default value `{"status":"FAIL"}`.  
 Previous state value is **discarded**.
 
 ## Usage
@@ -99,7 +99,7 @@ with signals:
 * On a `USR1` signal, hapgent sets the status to `UP`, and saves its state in the state file.
 * On a `HUP` signal, hapgent tries to read the state from the state file. If it succeeds,
   it sets its current state to the one read from the state file. If it fails to read or 
-  parse the state file, it sets its state to the default value `{"status":"MAINT"}`.
+  parse the state file, it sets its state to the default value `{"status":"FAIL"}`.
 
 ### Putting an instance **in** or **out** of load balancing
 
@@ -143,18 +143,19 @@ to implement a generic weight / maxconn adjustment system:
 
 ### Binary releases for Linux x86_64 systems
 
-Grab the latest release [binary](https://github.com/epicfilemcnulty/hapgent/releases/download/0.3.1/hapgent),
-make sure it has `b0b2295e3408630ca3a86aebb5d01b3f0ef06483d90a30885e3247f529319215` SHA256 checksum.
+Grab the `hapgent` binary, `hapgent.sha256` SHA256 checksum and `hapgent.sig` signature files
+from the latest release [binary](https://github.com/epicfilemcnulty/hapgent/releases)
 
-The binary is also signed with my SSH key, if you want to verify the signature, you need to
+Make sure that SHA256 checksum of the binary mathches the one in the `hapgent.sha256` file.
 
-1. Download the [signature](https://github.com/epicfilemcnulty/hapgent/releases/download/0.3.1/hapgent.sig).
-2. Add my public key to the allowed signers file:
+The binary is signed with my SSH key, to verify the signature you need to
+
+1. Add my public key to the allowed signers file:
 
    ```
    echo "vladimir@deviant.guru ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEWU0xshVgOIyjzQEOKtjG8sU8sWJPh25CP/ISfJRey" >> ~/.ssh/allowed_signers
    ```
-3. Verify the signature:
+2. Verify the signature:
    
    ```
    $ ssh-keygen -Y verify -f ~/.ssh/allowed_signers -n file -I vladimir@deviant.guru -s hapgent.sig < hapgent
