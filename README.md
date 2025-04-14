@@ -190,6 +190,15 @@ zig build
 
 The binary is saved in the `zig-out/bin/hapgent` file.
 
+## Resource usage
+
+*Hapgent* is a very lightweight application, the binary is **75Kb** and memory usage during 
+the runtime is about **200Kb**.
+
+I've written a couple of HAProxy agent implementations in Go for different projects, and, for
+comparison, the binary of my last Go implementation (same functionality as this one) is **3.8Mb**, 
+memory usage is around **4.6Mb** during runtime.
+
 ## Deployment
 
 There is an ansible [role](deploy/hapgent_ansible_role) to install,
