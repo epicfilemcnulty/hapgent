@@ -26,8 +26,9 @@ like this:
 
  * You define *address*, *port*, *payload* and *interval* for the agent in the upstream server configuration.
  * Every *interval* seconds HAProxy makes a TCP connection to the defined address 
-   and port, sends the payload and reads the answer.
- * Depending on the answer HAProxy can change the server status (up/down) and/or change its weight.
+   and port, sends the payload and reads an answer.
+ * Agent answers with the server's status, and, optionally, weight.
+ * Depending on the answer HAProxy may change the current status or weight of the server.
 
 ### HAProxy backend configuration sample
 
@@ -40,8 +41,21 @@ backend sample
   default-server check agent-check agent-port 9777 agent-inter 5s
   http-check send meth GET uri /health ver HTTP/1.1 hdr Host my.service.com
   server srv1 10.42.42.10:8080 weight 100
-  server srv1 10.42.42.11:8080 weight 50
+  server srv2 10.42.42.11:8080 weight 50
 ```
+
+We define two health checks here:
+
+ 1. HTTP health check using `GET` HTTP method to the `/health` uri,
+    with `Host` header set to `my.service.com`
+ 2. Agent check, port 9777, every 5 seconds, no payload. Since the `agent-addr` option is absent,
+    HAProxy will use server's IP as the agent IP address.
+
+Pay attention to the fact that the weight reported by the agent is interpreted as
+a percent of the original weight defined in the backend configuration.
+
+For example, using the configuration above, if we set the weight of 
+the agent on `srv2` to `50`, the effective weight for the `srv2` will be `25`.
 
 Note that the protocol allows sending arbitrary payload to the agents with
 the `agent-send` option. The agents could use this to implement multiple states support.
@@ -91,7 +105,7 @@ Previous state value is **discarded**.
 
 ## Usage
 
-*hapgent* should be run as a systemd/SysV service on the same instance
+*hapgent* typically should be run as a systemd/SysV service on the same instance
 where your service is deployed. You can dynamically change its state
 with signals:
 
@@ -146,7 +160,7 @@ to implement a generic weight / maxconn adjustment system:
 Grab the `hapgent` binary, `hapgent.sha256` SHA256 checksum and `hapgent.sig` signature files
 from the latest release [binary](https://github.com/epicfilemcnulty/hapgent/releases)
 
-Make sure that SHA256 checksum of the binary mathches the one in the `hapgent.sha256` file.
+Make sure that SHA256 checksum of the binary matches the one in the `hapgent.sha256` file.
 
 The binary is signed with my SSH key, to verify the signature you need to
 
@@ -176,3 +190,5 @@ zig build
 The binary is saved in the `zig-out/bin/hapgent` file.
 
 ## Deployment
+
+Ansible role to install, configure and run `hapgent` on a Debian system is [included](deploy/hapgent_ansible_role).

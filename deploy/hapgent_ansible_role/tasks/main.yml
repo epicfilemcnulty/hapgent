@@ -1,0 +1,40 @@
+---
+- name: Make sure there is /etc/hapgent dir
+  file:
+    path: /etc/hapgent
+    state: directory
+    owner: root
+    group: "{{ hapgent_group }}"
+    mode: 0755
+
+- name: Install HAProxy agent config
+  template:
+    src: state.json.tpl
+    dest: /etc/hapgent/state.json
+    owner: root
+    group: "{{ hapgent_group }}"
+    mode: 0664
+
+- name: Install Hapgent
+  get_url:
+    url: "https://github.com/epicfilemcnulty/hapgent/releases/download/{{ hapgent_version }}/hapgent"
+    dest: /usr/local/bin/hapgent
+    checksum: "sha256:{{ hapgent_checksum }}"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Install Hapgent service
+  template:
+    src: hapgent.service.tpl
+    dest: /etc/systemd/system/hapgent.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable Hapgent
+  systemd_service:
+    name: hapgent
+    enabled: true
+    state: restarted
+    daemon_reload: true

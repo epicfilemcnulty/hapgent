@@ -1,0 +1,1 @@
+{"status":"{{ hapgent_status }}"}
