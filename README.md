@@ -85,7 +85,7 @@ and optional fields `weight` and `maxconn`.
 
 * Valid values for the `status` field are `UP`,`DOWN`,`READY`,`DRAIN`,`FAIL`,`MAINT`,`STOPPED`.
 * The `weight` field, if set, should be a number in the range `0-255`.
-* The `maxconn` field, if set, should be a number in the range of `0-65535`.
+* The `maxconn` field, if set, should be a number in the range `0-65535`.
 
 For example:
 
@@ -100,14 +100,15 @@ For example:
 ```
 
 If *hapgent* fails to read or parse the state file during the initial startup, 
-or upon receiving a HUP signal, it resets its state to the default value `{"status":"FAIL"}`.  
-Previous state value is **discarded**.
+or upon receiving a HUP signal, it resets its state to the default value `{"status":"FAIL"}`.
+Previous state value is **discarded** in this case.
 
 ## Usage
 
 *hapgent* typically should be run as a systemd/SysV service on the same instance
-where your service is deployed. You can dynamically change its state
-with signals:
+where your service is deployed. See the deployment section below for details.
+
+You can dynamically change *hapgent's* state with signals:
 
 * On a `USR2` signal, hapgent sets the status to `DOWN`, and saves its state in the state file. 
 * On a `USR1` signal, hapgent sets the status to `UP`, and saves its state in the state file.
@@ -191,4 +192,18 @@ The binary is saved in the `zig-out/bin/hapgent` file.
 
 ## Deployment
 
-Ansible role to install, configure and run `hapgent` on a Debian system is [included](deploy/hapgent_ansible_role).
+There is an ansible [role](deploy/hapgent_ansible_role) to install,
+configure and run `hapgent` as a systemd service under an unprivileged user on a Debian system.
+
+It's configurable with the following ansible variables:
+
+| Variable Name                  | Default                                                               |
+|--------------------------------|-----------------------------------------------------------------------|
+| `hapgent_version`              | *0.3.2*                                                               |
+| `hapgent_user`                 | *nobody*                                                              |
+| `hapgent_group`                | *group*                                                               |
+| `hapgent_checksum`             | *38b9b2f80fbdf046311127b22943efb464081812bf53de7ce0452968c916b434*    |
+| `hapgent_ip`                   | *0.0.0.0*                                                             |
+| `hapgent_port`                 | *9777*                                                                |
+| `hapgent_state_file`           | */etc/hapgent/state.json*                                             |
+| `hapgent_status`               | *FAIL*                                                                |
