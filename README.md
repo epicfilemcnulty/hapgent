@@ -210,7 +210,7 @@ It's configurable with the following ansible variables:
 |--------------------------------|-----------------------------------------------------------------------|
 | `hapgent_version`              | *0.3.2*                                                               |
 | `hapgent_user`                 | *nobody*                                                              |
-| `hapgent_group`                | *group*                                                               |
+| `hapgent_group`                | *nogroup*                                                             |
 | `hapgent_checksum`             | *38b9b2f80fbdf046311127b22943efb464081812bf53de7ce0452968c916b434*    |
 | `hapgent_ip`                   | *0.0.0.0*                                                             |
 | `hapgent_port`                 | *9777*                                                                |
